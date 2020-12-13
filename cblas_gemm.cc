@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   s_elapsed = dsecnd() - s_initial;
 
   ofstream write;
-  write.open("cblas_gemm.txt", ios::app);
+  write.open("record.txt", ios::app);
 
   write << s_elapsed * 1000 << "    ";
   write.close();

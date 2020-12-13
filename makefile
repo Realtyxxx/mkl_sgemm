@@ -10,5 +10,4 @@ clean:
 
 
 rmtxt:
-	rm -rf cblas_gemm.txt
-	rm -rf cblas_gemm_batch.txt
+	rm -rf record.txt
