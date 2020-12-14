@@ -19,7 +19,7 @@ echo "---------------------------------------------------------- 1 -------------
 # echo "rm testbatch"
 # rm testbatch
 make clean
-
+make rmtxt
 
 #### compile ####
 echo "g++ *cc -o * -lmkl_r"

@@ -62,10 +62,14 @@ int main(int argc, char **argv) {
 
   s_elapsed = dsecnd() - s_initial;
 
+  double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) * ((double)k_value) *
+                        ((double)Arg_G_Size) * 1e-9);
+
   ofstream write;
   write.open("record.txt", ios::app);
 
-  write << s_elapsed * 1000 << "    ";
+  // write << s_elapsed * 1000 << "    ";
+  write << sgemm_gflops /s_elapsed  << "    ";
   write.close();
 
   printf(
