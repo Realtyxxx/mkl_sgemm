@@ -62,14 +62,14 @@ int main(int argc, char **argv) {
 
   s_elapsed = dsecnd() - s_initial;
 
-  double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) * ((double)k_value) *
-                        ((double)Arg_G_Size) * 1e-9);
+  double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
+                         ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
   ofstream write;
   write.open("record.txt", ios::app);
 
   // write << s_elapsed * 1000 << "    ";
-  write << sgemm_gflops /s_elapsed  << "    ";
+  write << sgemm_gflops / s_elapsed << "    ";
   write.close();
 
   printf(
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
       " == at %.5f milliseconds == \n\n",
       Arg_G_Size, Arg_MKN_value, (s_elapsed * 1000));
 
-  //输出矩阵A
+  // // 输出矩阵A
   // cout << "Arg_G_Size : " << Arg_G_Size << endl;
   // cout << Arg_G_Size << " A(" << m_value << "," << k_value << ')' << endl;
   // for (int i = 0; i < a.size(); ++i) {
@@ -112,8 +112,9 @@ int main(int argc, char **argv) {
   // }
 
   // printf(
-  //     " == Multiple Matrix multiplication using Intel(R) MKL cblas_sgemm with
-  //     " "for loop completed == \n" " == at %.5f milliseconds == \n\n",
+  //     " == Multiple Matrix multiplication using Intel(R) MKL cblas_sgemm with"
+  //     "for loop completed == \n"
+  //     " == at %.5f milliseconds == \n\n",
   //     (s_elapsed * 1000));
 }
 
