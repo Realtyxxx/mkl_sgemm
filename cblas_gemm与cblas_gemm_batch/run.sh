@@ -59,7 +59,7 @@ do
     do
       echo "*************************************************************************************************"
       taskset -c 1 ./cblas_gemm ${i} ${j}
-      taskset -c 1 ./cblas_gemm_batch ${i} ${j}
+      taskset -c 2 ./cblas_gemm_batch ${i} ${j}
       #  echo "./testbatch count=${i} m=${j} m=${j} k=${j}"
     #		for t in {0..7};
     #		do
