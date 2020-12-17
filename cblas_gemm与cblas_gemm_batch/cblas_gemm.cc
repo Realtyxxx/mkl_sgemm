@@ -8,6 +8,8 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+  // mkl_set_num_threads(1);
+
   MKL_INT Arg_G_Size = atoi(argv[1]);
   MKL_INT Arg_MKN_value = atoi(argv[2]);
 
@@ -57,7 +59,7 @@ int main(int argc, char **argv) {
     cblas_sgemm(CblasRowMajor, transA, transB, m_value, n_value, k_value, alpha,
                 a_array[i], lda, b_array[i], ldb, beta, c_array[i], ldc);
   }
-  
+
   s_elapsed = dsecnd() - s_initial;
 
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *

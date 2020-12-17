@@ -5,9 +5,15 @@
 #include <vector>
 
 #include "mkl.h"
+
+// mkl_set_num_threads(1);
+// MKL_Set_Num_Threads(1);
+
 using namespace std;
 
 int main(int argc, char **argv) {
+  // mkl_set_num_threads(1);
+
   MKL_INT Arg_G_Size = atoi(argv[1]);
   MKL_INT Arg_MKN_value = atoi(argv[2]);
 
