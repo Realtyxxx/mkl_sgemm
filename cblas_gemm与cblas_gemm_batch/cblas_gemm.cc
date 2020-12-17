@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
   std::vector<float> b(k_value * n_value * groupSize, 1.0);
   std::vector<float> c(m_value * n_value * groupSize, 0.0);
 
+  srand(time(0));
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
     a[i] = int(rand());
     b[i] = int(rand());
@@ -51,10 +52,12 @@ int main(int argc, char **argv) {
   double s_initial, s_elapsed;  //时间
 
   s_initial = dsecnd();
+
   for (int i = 0; i < groupSize; i++) {
     cblas_sgemm(CblasRowMajor, transA, transB, m_value, n_value, k_value, alpha,
                 a_array[i], lda, b_array[i], ldb, beta, c_array[i], ldc);
   }
+  
   s_elapsed = dsecnd() - s_initial;
 
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *

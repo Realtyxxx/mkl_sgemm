@@ -13,55 +13,58 @@ int main(int argc, char **argv) {
 
 #define groupCount 1
 
-  MKL_INT groupSize[groupCount] = {Arg_G_Size};
+  MKL_INT groupSize = Arg_G_Size;
 
   MKL_INT m_value, k_value, n_value;
 
   m_value = k_value = n_value = Arg_MKN_value;
 
-  MKL_INT m_array[groupCount] = {m_value};
-  MKL_INT n_array[groupCount] = {n_value};
-  MKL_INT k_array[groupCount] = {k_value};
+  std::vector<float> a(m_value * k_value * groupSize, 1.0);
+  std::vector<float> b(k_value * n_value * groupSize, 1.0);
+  std::vector<float> c(m_value * n_value * groupSize, 0.0);
 
-  std::vector<float> a(m_value * k_value * Arg_G_Size);
-  std::vector<float> b(k_value * n_value * Arg_G_Size);
-  std::vector<float> c(m_value * n_value * Arg_G_Size);
-
-  srand(time(0));
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
     a[i] = int(rand());
     b[i] = int(rand());
   }
 
-  MKL_INT lda[groupCount], ldb[groupCount], ldc[groupCount];
-  lda[0] = ldb[0] = ldc[0] = m_value;
+  MKL_INT lda, ldb, ldc;
+  lda = ldb = ldc = m_value;
 
-  CBLAS_TRANSPOSE transA[groupCount] = {CblasNoTrans};  // A
-  CBLAS_TRANSPOSE transB[groupCount] = {CblasNoTrans};  // B转置
+  CBLAS_TRANSPOSE transA = CblasNoTrans;  // A
+  CBLAS_TRANSPOSE transB = CblasNoTrans;  // B转置
 
-  float alpha[groupCount] = {1.0};  // C=alpha*A*Btrans+C*beta
-  float beta[groupCount] = {0.0};
+  float alpha = 1.0;  // C=alpha*A*Btrans+C*beta
+  float beta = 0.0;
 
   // const MKL_INT size_per_grp = 4;
 
-  const float *a_array[Arg_G_Size], *b_array[Arg_G_Size];
-  float *c_array[Arg_G_Size];
-  for (int i = 0; i < Arg_G_Size;
+  const float *a_array[groupSize], *b_array[groupSize];
+  float *c_array[groupSize];
+  for (int i = 0; i < groupSize;
        ++i) {  //标记array[i]指向的数组开始的位置,现在只有一个group分为4个sub
     a_array[i] = a.data() + i * m_value * k_value;  //指针操作
     b_array[i] = b.data() + i * k_value * n_value;
     c_array[i] = c.data() + i * m_value * n_value;
   }
 
-  double s_initial, s_elapsed;  //时间
+  double total_ten = 0;
+  int count = 10;
+  while (count--) {
+    double s_initial, s_elapsed;  //时间
 
-  s_initial = dsecnd();
+    s_initial = dsecnd();
 
-  cblas_sgemm_batch(CblasRowMajor, transA, transB, m_array, n_array, k_array,
-                    alpha, a_array, lda, b_array, ldb, beta, c_array, ldc,
-                    groupCount, groupSize);
+    for (int i = 0; i < groupSize; i++) {
+      cblas_sgemm(CblasRowMajor, transA, transB, m_value, n_value, k_value,
+                  alpha, a_array[i], lda, b_array[i], ldb, beta, c_array[i],
+                  ldc);
+    }
 
-  s_elapsed = dsecnd() - s_initial;
+    s_elapsed = dsecnd() - s_initial;
+    total_ten += s_elapsed;
+  }
+  total_ten /= 10;
 
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
@@ -69,20 +72,20 @@ int main(int argc, char **argv) {
   ofstream write;
   write.open("record.txt", ios::app);
 
-  // write << s_elapsed * 1000 << "    ";
-  write << sgemm_gflops / s_elapsed << "    ";
+  write << sgemm_gflops / total_ten << "    ";
   write.close();
 
   printf(
-      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
-      "Intel(R) MKL cblas_sgemm_batch "
+      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d "
+      ")using "
+      "Intel(R) MKL cblas_sgemm "
       "completed == \n"
-      " == at %.5f milliseconds == \n\n",
-      Arg_G_Size, Arg_MKN_value, (s_elapsed * 1000));
+      " == at average %.5f milliseconds == \n\n",
+      Arg_G_Size, Arg_MKN_value, (total_ten * 1000));
 
   // // 输出矩阵A
-  // cout << "Arg_G_Size : " << Arg_G_Size << endl;
-  // cout << Arg_G_Size << " A(" << m_value << "," << k_value << ')' << endl;
+  // cout << "groupSize : " << groupSize << endl;
+  // cout << groupSize << " A(" << m_value << "," << k_value << ')' << endl;
   // for (int i = 0; i < a.size(); ++i) {
   //   cout << a[i] << ' ';
   //   if ((i + 1) % m_value == 0) cout << endl;
@@ -92,7 +95,7 @@ int main(int argc, char **argv) {
   //   }
   // }
 
-  // cout << Arg_G_Size << " B(" << k_value << "," << n_value << ')' << endl;
+  // cout << groupSize << " B(" << k_value << "," << n_value << ')' << endl;
   // for (int i = 0; i < b.size(); ++i) {
   //   cout << b[i] << ' ';
   //   if ((i + 1) % k_value == 0) cout << endl;
@@ -102,7 +105,7 @@ int main(int argc, char **argv) {
   //   }
   // }
 
-  // cout << Arg_G_Size << " C(" << m_value << "," << n_value << ')' << endl;
+  // cout << groupSize << " C(" << m_value << "," << n_value << ')' << endl;
   // for (int i = 0; i < c.size(); ++i) {
   //   cout << c[i] << ' ';
   //   if ((i + 1) % m_value == 0) cout << endl;

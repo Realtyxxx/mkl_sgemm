@@ -53,15 +53,21 @@ int main(int argc, char **argv) {
     c_array[i] = c.data() + i * m_value * n_value;
   }
 
-  double s_initial, s_elapsed;  //时间
+  double total_ten = 0;
+  int count = 10;
+  while (count--) {
+    double s_initial, s_elapsed;  //时间
 
-  s_initial = dsecnd();
+    s_initial = dsecnd();
 
-  cblas_sgemm_batch(CblasRowMajor, transA, transB, m_array, n_array, k_array,
-                    alpha, a_array, lda, b_array, ldb, beta, c_array, ldc,
-                    groupCount, groupSize);
+    cblas_sgemm_batch(CblasRowMajor, transA, transB, m_array, n_array, k_array,
+                      alpha, a_array, lda, b_array, ldb, beta, c_array, ldc,
+                      groupCount, groupSize);
 
-  s_elapsed = dsecnd() - s_initial;
+    s_elapsed = dsecnd() - s_initial;
+    total_ten += s_elapsed;
+  }
+  total_ten /= 10;
 
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
@@ -69,16 +75,15 @@ int main(int argc, char **argv) {
   ofstream write;
   write.open("record.txt", ios::app);
 
-  // write << s_elapsed * 1000 << "    ";
-  write << sgemm_gflops / s_elapsed << "    ";
+  write << sgemm_gflops / total_ten << "    ";
   write.close();
 
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
       "Intel(R) MKL cblas_sgemm_batch "
       "completed == \n"
-      " == at %.5f milliseconds == \n\n",
-      Arg_G_Size, Arg_MKN_value, (s_elapsed * 1000));
+      " == at average %.5f milliseconds == \n\n",
+      Arg_G_Size, Arg_MKN_value, (total_ten * 1000));
 
   // // 输出矩阵A
   // cout << "Arg_G_Size : " << Arg_G_Size << endl;
