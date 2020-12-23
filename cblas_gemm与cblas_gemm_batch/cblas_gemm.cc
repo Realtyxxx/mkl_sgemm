@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
 
   srand(time(0));
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
-    a[i] = int(rand());
-    b[i] = int(rand());
+    a[i] = rand();
+    b[i] = rand();
   }
 
   MKL_INT lda, ldb, ldc;
