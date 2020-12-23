@@ -77,3 +77,7 @@ int main(int argc, char** argv) {
   write << sgemm_gflops / elapsed << "    ";
   write.close();
 }
+
+
+// 就是频率 向量长度 2 核数 乘起来
+// 这个是计算sgemm的计算量,这个值除以理论峰值就是效率
