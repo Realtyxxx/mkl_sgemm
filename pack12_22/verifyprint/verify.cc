@@ -30,19 +30,18 @@ int main(int argc, char** argv) {
 
   float alpha = 1.0, beta = 0.0;
 
-  vector<float> a(m * k, 1);
-  vector<float> b(k * n * groupSize, 2);
+  vector<float> a(m * k);
+  vector<float> b(k * n * groupSize);
   vector<float> c(k * n * groupSize, 0);
 
-  // for (auto e : a) e = rand() / (float)(RAND_MAX / 9999);
-  // for (auto e : b) e = rand() / (float)(RAND_MAX / 9999);
-  // printMatrixA((float*)a.data(), m, k);
-  // printMatrixBC(b, k, n, groupSize);
-  // printMatrixBC(c, m, n, groupSize);
+  
 
-  printVector(a, k);
-  printVector(b, n);
-  printVector(c, n);
+  // printMatrixA((float*)a.data(), m, k); printMatrixBC(b, k, n,
+  // groupSize); printMatrixBC(c, m, n, groupSize);
+
+  // printVector(a, k);
+  // printVector(b, n);
+  // printVector(c, n);
 
   cout << "------------------computing---------------" << endl;
 
@@ -63,10 +62,31 @@ int main(int argc, char** argv) {
   // store matrix B in an internal format.
   float* Ap = (float*)mkl_malloc(Asize, 32);
 
-  double initial, end;
-  initial = dsecnd();
+  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
 
-  // tic();
+  double initial1, end1;
+  initial1 = dsecnd();
+
+  for (int i = 0; i < groupSize; i++) {
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
+                        a.data(), k, b_array[i], n, beta, c_array[i], n);
+  }
+
+
+  end1 = dsecnd();
+
+  double elapsed1 = end1 - initial1;
+
+
+  //----------------------------------compare pack----------------------
+
+  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
+  
+  double initial2, end2;
+  initial2 = dsecnd();
+
   cblas_sgemm_pack(CblasRowMajor, CblasAMatrix, CblasNoTrans, m, n, k, alpha,
                    a.data(), k, Ap);
 
@@ -79,9 +99,9 @@ int main(int argc, char** argv) {
   //                     b.data(), n, beta, c.data(), n);
 
   // double elapsed = toc();
-  end = dsecnd();
+  end2 = dsecnd();
 
-  double elapsed = end - initial;
+  double elapsed2 = end2 - initial2;
 
   // printMatrixA((float*)a.data(), m, k);
   // printMatrixBC(b, k, n, groupSize);
@@ -97,14 +117,24 @@ int main(int argc, char** argv) {
       "Intel(R) MKL cblas_sgemm "
       "completed == \n"
       " == at %.5f milliseconds == \n\n",
-      Arg_G_Size, Arg_MKN, (elapsed * 1000));
+      Arg_G_Size, Arg_MKN, (elapsed1 * 1000));
+  cout << "--------------------------------after "
+          "pack--------------------------------"
+       << endl;
+  printf(
+      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
+      "Intel(R) MKL cblas_sgemm "
+      "completed == \n"
+      " == at %.5f milliseconds == \n\n",
+      Arg_G_Size, Arg_MKN, (elapsed2 * 1000));
 
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
 
   mkl_free(Ap);
 
-  cout << "Gflops" << sgemm_gflops / elapsed << "    ";
+  cout << "Gflops" << sgemm_gflops / elapsed1 << "    ";
+  cout << "Gflops" << sgemm_gflops / elapsed2 << "    ";
 }
 
 // 就是频率 向量长度 2 核数 乘起来
