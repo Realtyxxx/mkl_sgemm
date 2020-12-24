@@ -1,5 +1,5 @@
-#include <sys/time.h>
-#include <time.h>
+// #include <sys/time.h>
+// #include <time.h>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -7,15 +7,14 @@
 
 using namespace std;
 
-static struct timeval start;
-static struct timeval thisend;
-void tic(void) { gettimeofday(&start, NULL); }
-
-double toc(void) {
-  gettimeofday(&thisend, NULL);
-  return (thisend.tv_sec - start.tv_sec) +
-         1.0e-6 * (thisend.tv_usec - start.tv_usec);
-}
+// static struct timeval start;
+// static struct timeval thisend;
+// void tic(void) { gettimeofday(&start, NULL); }
+// double toc(void) {
+//   gettimeofday(&thisend, NULL);
+//   return (thisend.tv_sec - start.tv_sec) +
+//          1.0e-6 * (thisend.tv_usec - start.tv_usec);
+// }
 
 int main(int argc, char** argv) {
   srand((unsigned)time(0));  // set the time seed;
@@ -33,7 +32,7 @@ int main(int argc, char** argv) {
   // store matrix A in an internal format.
   // If identifier = CblasBMatrix, the sizereturned is the size required to
   // store matrix B in an internal format.
-  float* dest = (float*)mkl_malloc(size, 64);
+  float* Ap = (float*)mkl_malloc(size, 64);
 
   float alpha = 1.0, beta = 0.0;
 
@@ -44,29 +43,29 @@ int main(int argc, char** argv) {
   for (auto e : a) e = rand() / (float)(RAND_MAX / 9999);
   for (auto e : b) e = rand() / (float)(RAND_MAX / 9999);
 
-  float *barray[groupSize], *carray[groupSize];
+  float *b_array[groupSize], *c_array[groupSize];
 
   for (int i = 0; i < groupSize; i++) {
-    barray[i] = b.data() + k * n * i;
-    carray[i] = c.data() + k * n * i;
+    b_array[i] = b.data() + k * n * i;
+    c_array[i] = c.data() + k * n * i;
   }
-  // double initial, end;
-  // initial = dsecnd();
+  double initial, end;
+  initial = dsecnd();
 
-  tic();
+  // tic();
   cblas_sgemm_pack(CblasRowMajor, CblasAMatrix, CblasNoTrans, m, n, k, alpha,
-                   a.data(), k, dest);
+                   a.data(), k, Ap);
 
   for (int i = 0; i < groupSize; i++) {
     cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
-                        a.data(), k, barray[i], n, beta, carray[i], n);
+                        Ap, k, b_array[i], n, beta, c_array[i], n);
   }
   // cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
   // a.data(), k, b.data(), n, beta, c.data(), n);
-  double elapsed = toc();
-  // end = dsecnd();
+  // double elapsed = toc();
+  end = dsecnd();
 
-  // double elapsed = end - initial;
+  double elapsed = end - initial;
 
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
@@ -78,7 +77,7 @@ int main(int argc, char** argv) {
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
 
-  mkl_free(dest);
+  mkl_free(Ap);
   ofstream writeGflops, writeRuntime;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);
   writeRuntime.open("pack_compute_Runtime.txt", ios::app);
