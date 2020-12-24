@@ -78,9 +78,8 @@ int main(int argc, char** argv) {
 
   //----------------------------------compare pack----------------------
 
-  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX /
-  // 9999); for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX
-  // / 9999);
+  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999); 
+  // for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
 
   double initial2, end2;
   initial2 = dsecnd();
