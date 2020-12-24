@@ -5,4 +5,5 @@ clean:
 	rm -rf pack_compute
 
 rmtxt:
-	rm -rf pack_compute_record.txt
+	rm -rf pack_compute_Runtime.txt
+	rm -rf pack_compute_Gflops.txt
