@@ -70,13 +70,13 @@ int main(int argc, char** argv) {
   cblas_sgemm_pack(CblasRowMajor, CblasAMatrix, CblasNoTrans, m, n, k, alpha,
                    a.data(), k, Ap);
 
-  // for (int i = 0; i < groupSize; i++) {
-  //   cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
-  //   Ap,
-  //                       k, b_array[i], n, beta, c_array[i], n);
-  // }
-  cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, Ap, k,
-                      b.data(), n, beta, c.data(), n);
+  for (int i = 0; i < groupSize; i++) {
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, Ap,
+                        k, b_array[i], n, beta, c_array[i], n);
+  }
+  // cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
+  // a.data(), k,
+  //                     b.data(), n, beta, c.data(), n);
 
   // double elapsed = toc();
   end = dsecnd();
