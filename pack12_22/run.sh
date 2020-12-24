@@ -5,7 +5,7 @@ echo "# Title      : test_batch_sgemm                                           
 echo "# CPU        : INTEL I5 8500                                                                                 #"
 echo "# Tester     : TYX                                                                                           #"
 echo "# Time       : 2020.12.13                                                                                    #"
-echo "# Description: Test performance of batch_sgemm for different {groupSize}, {M,N,K_value}.                     #"
+echo "# Description: Test performance of pack&compute_sgemm for different {groupSize}, {M,N,K_value}.              #"
 echo "#              To run the script, one should check environment variables.                                    #"
 echo "##############################################################################################################"
 

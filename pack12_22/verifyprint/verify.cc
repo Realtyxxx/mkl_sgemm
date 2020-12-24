@@ -30,11 +30,9 @@ int main(int argc, char** argv) {
 
   float alpha = 1.0, beta = 0.0;
 
-  vector<float> a(m * k);
-  vector<float> b(k * n * groupSize);
+  vector<float> a(m * k, 1);
+  vector<float> b(k * n * groupSize, 1);
   vector<float> c(k * n * groupSize, 0);
-
-  
 
   // printMatrixA((float*)a.data(), m, k); printMatrixBC(b, k, n,
   // groupSize); printMatrixBC(c, m, n, groupSize);
@@ -62,8 +60,9 @@ int main(int argc, char** argv) {
   // store matrix B in an internal format.
   float* Ap = (float*)mkl_malloc(Asize, 32);
 
-  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
-  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
+  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX /
+  // 9999); for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX
+  // / 9999);
 
   double initial1, end1;
   initial1 = dsecnd();
@@ -72,18 +71,17 @@ int main(int argc, char** argv) {
     cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
                         a.data(), k, b_array[i], n, beta, c_array[i], n);
   }
-
-
   end1 = dsecnd();
-
   double elapsed1 = end1 - initial1;
-
+  printVector(c, n);
+  cout << endl;
 
   //----------------------------------compare pack----------------------
 
-  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
-  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
-  
+  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX /
+  // 9999); for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX
+  // / 9999);
+
   double initial2, end2;
   initial2 = dsecnd();
 
@@ -91,24 +89,12 @@ int main(int argc, char** argv) {
                    a.data(), k, Ap);
 
   for (int i = 0; i < groupSize; i++) {
-    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, Ap,
-                        k, b_array[i], n, beta, c_array[i], n);
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
+                        a.data(), k, b_array[i], n, beta, c_array[i], n);
   }
-  // cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
-  // a.data(), k,
-  //                     b.data(), n, beta, c.data(), n);
-
-  // double elapsed = toc();
   end2 = dsecnd();
-
   double elapsed2 = end2 - initial2;
 
-  // printMatrixA((float*)a.data(), m, k);
-  // printMatrixBC(b, k, n, groupSize);
-  // printMatrixBC(c, m, n, groupSize);
-
-  // printVector(a, k);
-  // printVector(b, n);
   printVector(c, n);
   cout << endl;
 
@@ -122,9 +108,9 @@ int main(int argc, char** argv) {
           "pack--------------------------------"
        << endl;
   printf(
-      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
+      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using"
       "Intel(R) MKL cblas_sgemm "
-      "completed == \n"
+      " completed == \n"
       " == at %.5f milliseconds == \n\n",
       Arg_G_Size, Arg_MKN, (elapsed2 * 1000));
 
