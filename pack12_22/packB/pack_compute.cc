@@ -18,13 +18,13 @@ int main(int argc, char** argv) {
   int m, k, n;
   m = k = n = Arg_MKN;
   // size_t : unsigned long
-  size_t size = cblas_sgemm_pack_get_size(CblasAMatrix, m, n, k);
+  size_t size = cblas_sgemm_pack_get_size(CblasBMatrix, m, n, k);
   // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
   // If identifier = CblasAMatrix, the size returned is the size required to
   // store matrix A in an internal format.
   // If identifier = CblasBMatrix, the sizereturned is the size required to
   // store matrix B in an internal format.
-  float* Ap = (float*)mkl_malloc(size, 64);
+  float* Bp = (float*)mkl_malloc(size, 64);
 
   float alpha = 1.0, beta = 0.0;
 
@@ -38,28 +38,27 @@ int main(int argc, char** argv) {
   float *a_array[groupSize], *c_array[groupSize];
 
   for (int i = 0; i < groupSize; i++) {
-    a_array[i] = b.data() + k * n * i;
+    a_array[i] = a.data() + k * n * i;
     c_array[i] = c.data() + k * n * i;
   }
   double initial, end;
   initial = dsecnd();
 
-  cblas_sgemm_pack(CblasRowMajor, CblasAMatrix, CblasNoTrans, m, n, k, alpha,
-                   a.data(), k, Ap);
+  cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha,
+                   b.data(), n, Bp);
 
   for (int i = 0; i < groupSize; i++) {
-    cblas_sgemm_compute(CblasRowMajor, CblasPacked, CblasNoTrans, m, n, k, Ap,
-                        k, b_array[i], n, beta, c_array[i], n);
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasPacked, m, n, k, a_array[i],
+                        k, Bp, n, beta, c_array[i], n);
   }
   end = dsecnd();
 
 
   double elapsed = end - initial;
 
-  // printVector(a, m);
-  // printVector(b, m);
-  // printVector(c, m);
-  // printVector(d, m);
+  printVector(a, m);
+  printVector(b, m);
+  printVector(c, m);
 
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
