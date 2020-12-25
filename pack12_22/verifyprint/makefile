@@ -1,5 +1,10 @@
 install:
-	rm -rf verify
-	g++ verify.cc -o verify -lmkl_rt
-	./verify 30 200
+	rm -rf pack
+	rm -rf nopack
+
+	g++ nopack.cc -o nopack -lmkl_rt
+	g++ pack.cc -o pack -lmkl_rt
+	./nopack 512 500
+	@echo -e  '\n'
+	./pack 512 500
 

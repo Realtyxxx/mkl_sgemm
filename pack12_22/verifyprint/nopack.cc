@@ -51,19 +51,6 @@ int main(int argc, char** argv) {
     c_array[i] = c.data() + (i * m * n);
   }
 
-  // size_t : unsigned long
-  size_t Asize = cblas_sgemm_pack_get_size(CblasAMatrix, m, n, k);
-  // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
-  // If identifier = CblasAMatrix, the size returned is the size required to
-  // store matrix A in an internal format.
-  // If identifier = CblasBMatrix, the sizereturned is the size required to
-  // store matrix B in an internal format.
-  float* Ap = (float*)mkl_malloc(Asize, 32);
-
-  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX /
-  // 9999); for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX
-  // / 9999);
-
   double initial1, end1;
   initial1 = dsecnd();
 
@@ -73,28 +60,7 @@ int main(int argc, char** argv) {
   }
   end1 = dsecnd();
   double elapsed1 = end1 - initial1;
-  printVector(c, n);
-  cout << endl;
-
-  //----------------------------------compare pack----------------------
-
-  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999); 
-  // for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
-
-  double initial2, end2;
-  initial2 = dsecnd();
-
-  cblas_sgemm_pack(CblasRowMajor, CblasAMatrix, CblasNoTrans, m, n, k, alpha,
-                   a.data(), k, Ap);
-
-  for (int i = 0; i < groupSize; i++) {
-    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
-                        a.data(), k, b_array[i], n, beta, c_array[i], n);
-  }
-  end2 = dsecnd();
-  double elapsed2 = end2 - initial2;
-
-  printVector(c, n);
+  // printVector(c, n);
   cout << endl;
 
   printf(
@@ -103,23 +69,11 @@ int main(int argc, char** argv) {
       "completed == \n"
       " == at %.5f milliseconds == \n\n",
       Arg_G_Size, Arg_MKN, (elapsed1 * 1000));
-  cout << "--------------------------------after "
-          "pack--------------------------------"
-       << endl;
-  printf(
-      " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using"
-      "Intel(R) MKL cblas_sgemm "
-      " completed == \n"
-      " == at %.5f milliseconds == \n\n",
-      Arg_G_Size, Arg_MKN, (elapsed2 * 1000));
 
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
 
-  mkl_free(Ap);
-
   cout << "Gflops" << sgemm_gflops / elapsed1 << "    ";
-  cout << "Gflops" << sgemm_gflops / elapsed2 << "    ";
 }
 
 // 就是频率 向量长度 2 核数 乘起来
