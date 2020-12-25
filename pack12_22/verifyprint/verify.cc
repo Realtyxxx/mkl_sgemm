@@ -8,8 +8,8 @@
 
 using namespace std;
 
-static struct timeval start;
-static struct timeval thisend;
+// static struct timeval start;
+// static struct timeval thisend;
 
 // void tic(void) { gettimeofday(&start, NULL); }
 // double toc(void) {
