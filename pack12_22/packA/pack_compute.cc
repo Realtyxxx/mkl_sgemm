@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
   for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
   for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
 
-  float *b_array[groupSize], *c_array[groupSize], *d_array[groupSize];
+  float *b_array[groupSize], *c_array[groupSize];
 
   for (int i = 0; i < groupSize; i++) {
     b_array[i] = b.data() + k * n * i;
