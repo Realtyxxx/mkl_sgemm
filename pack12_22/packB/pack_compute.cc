@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
 
-  mkl_free(Ap);
+  mkl_free(Bp);
   ofstream writeGflops, writeRuntime;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);
   writeRuntime.open("pack_compute_Runtime.txt", ios::app);
