@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "##############################################################################################################"
-echo "# Title      : test_batch_sgemm                                                                              #"
+echo "# Title      : test_pack/compute_sgemm                                                                       #"
 echo "# CPU        : INTEL I5 8500                                                                                 #"
 echo "# Tester     : TYX                                                                                           #"
 echo "# Time       : 2020.12.13                                                                                    #"

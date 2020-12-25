@@ -32,8 +32,8 @@ int main(int argc, char** argv) {
   vector<float> b(m * k, 2);
   vector<float> c(k * n * groupSize);
 
-  // for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
-  // for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
 
   float *a_array[groupSize], *c_array[groupSize];
 
@@ -56,9 +56,9 @@ int main(int argc, char** argv) {
 
   double elapsed = end - initial;
 
-  printVector(a, m);
-  printVector(b, m);
-  printVector(c, m);
+  // printVector(a, m);
+  // printVector(b, m);
+  // printVector(c, m);
 
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
