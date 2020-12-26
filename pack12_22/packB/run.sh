@@ -55,10 +55,10 @@ do
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     # taskset -c 1 ./cblas_gemm 256 1280
     # taskset -c 1 ./cblas_gemm_batch 256 1280
-    echo 'm-k-n:'${j} >> pack_compute_Runtime.txt
-    echo 'm-k-n:'${j} >> pack_compute_Gflops.txt
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Runtime.txt
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Gflops.txt
+    # echo 'm-k-n:'${j} >> pack_compute_Runtime.txt
+    # echo 'm-k-n:'${j} >> pack_compute_Gflops.txt
+    # echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Runtime.txt
+    # echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Gflops.txt
   
     for i in $count
     do
