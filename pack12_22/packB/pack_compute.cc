@@ -27,25 +27,32 @@ int main(int argc, char** argv) {
   float* Bp = (float*)mkl_malloc(size, 64);
 
   float alpha = 1.0, beta = 0.0;
+  
+  float * a = (float *)malloc(sizeof(float)*k * n * groupSize);
+  float * b = (float *)malloc(sizeof(float)* k*n*);
+  float * c = (float *)malloc(sizeof(float)* k * n * groupSize);
 
-  vector<float> a(k * n * groupSize, 1);
-  vector<float> b(m * k, 2);
-  vector<float> c(k * n * groupSize);
+  int bSize = k * n * groupSize;
+  int aSize = k * n;
 
-  for (int i = 0; i < a.size(); i++) a[i] = rand() / (float)(RAND_MAX / 9999);
-  for (int i = 0; i < b.size(); i++) b[i] = rand() / (float)(RAND_MAX / 9999);
+  // vector<float> a(k * n * groupSize, 1);
+  // vector<float> b(m * k, 2);
+  // vector<float> c(k * n * groupSize);
+
+  for (int i = 0; i < aSize; i++) a[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < bSize; i++) b[i] = rand() / (float)(RAND_MAX / 9999);
 
   float *a_array[groupSize], *c_array[groupSize];
 
   for (int i = 0; i < groupSize; i++) {
-    a_array[i] = a.data() + k * n * i;
-    c_array[i] = c.data() + k * n * i;
+    a_array[i] = a + k * n * i;
+    c_array[i] = c + k * n * i;
   }
   double initial, end;
   initial = dsecnd();
 
   cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha,
-                   b.data(), n, Bp);
+                   b, n, Bp);
 
   for (int i = 0; i < groupSize; i++) {
     cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasPacked, m, n, k, a_array[i],
@@ -69,7 +76,9 @@ int main(int argc, char** argv) {
 
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
-
+  free(a);
+  free(b);
+  free(c);
   mkl_free(Bp);
   ofstream writeGflops, writeRuntime;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);
