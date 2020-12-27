@@ -9,22 +9,12 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-  srand((unsigned)time(0));  // set the time seed;
-
   MKL_INT Arg_G_Size = atoi(argv[1]);
   MKL_INT Arg_MKN = atoi(argv[2]);
 
   MKL_INT groupSize = Arg_G_Size;
   int m, k, n;
   m = k = n = Arg_MKN;
-  // size_t : unsigned long
-  size_t size = cblas_sgemm_pack_get_size(CblasBMatrix, m, n, k);
-  // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
-  // If identifier = CblasAMatrix, the size returned is the size required to
-  // store matrix A in an internal format.
-  // If identifier = CblasBMatrix, the sizereturned is the size required to
-  // store matrix B in an internal format.
-  float *Bp = (float *)mkl_malloc(size, 64);
 
   float alpha = 1.0, beta = 0.0;
 
@@ -32,12 +22,22 @@ int main(int argc, char **argv) {
   float *b = (float *)malloc((size_t)sizeof(float) * k * n);
   float *c = (float *)malloc((size_t)sizeof(float) * k * n * groupSize);
 
+  // size_t : unsigned long
+  size_t size = cblas_sgemm_pack_get_size(CblasBMatrix, m, n, k);
+  float *Bp = (float *)mkl_malloc(size, 64);
+  // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
+  // If identifier = CblasAMatrix, the size returned is the size required to
+  // store matrix A in an internal format.
+  // If identifier = CblasBMatrix, the sizereturned is the size required to
+  // store matrix B in an internal format.
+
   int aSize = k * n * groupSize;
   int bSize = k * n;
 
   // vector<float> a(k * n * groupSize, 1);
   // vector<float> b(m * k, 2);
   // vector<float> c(k * n * groupSize);
+  srand((unsigned)time(0));  // set the time seed;
 
   for (int i = 0; i < aSize; i++) a[i] = rand() / (float)(RAND_MAX / 9999);
   for (int i = 0; i < bSize; i++) b[i] = rand() / (float)(RAND_MAX / 9999);
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
   free(a);
-  // free(b);
+  free(b);
   free(c);
 
   mkl_free(Bp);
