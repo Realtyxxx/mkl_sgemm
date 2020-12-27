@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   srand((unsigned)time(0));  // set the time seed;
 
   MKL_INT Arg_G_Size = atoi(argv[1]);
@@ -24,16 +24,16 @@ int main(int argc, char** argv) {
   // store matrix A in an internal format.
   // If identifier = CblasBMatrix, the sizereturned is the size required to
   // store matrix B in an internal format.
-  float* Bp = (float*)mkl_malloc(size, 64);
+  float *Bp = (float *)mkl_malloc(size, 64);
 
   float alpha = 1.0, beta = 0.0;
-  
-  float * a = (float *)malloc(sizeof(float)*k * n * groupSize);
-  float * b = (float *)malloc(sizeof(float)* k*n*);
-  float * c = (float *)malloc(sizeof(float)* k * n * groupSize);
 
-  int bSize = k * n * groupSize;
-  int aSize = k * n;
+  float *a = (float *)malloc((size_t)sizeof(float) * k * n * groupSize);
+  float *b = (float *)malloc((size_t)sizeof(float) * k * n);
+  float *c = (float *)malloc((size_t)sizeof(float) * k * n * groupSize);
+
+  int aSize = k * n * groupSize;
+  int bSize = k * n;
 
   // vector<float> a(k * n * groupSize, 1);
   // vector<float> b(m * k, 2);
@@ -51,15 +51,14 @@ int main(int argc, char** argv) {
   double initial, end;
   initial = dsecnd();
 
-  cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha,
-                   b, n, Bp);
+  cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha, b,
+                   n, Bp);
 
   for (int i = 0; i < groupSize; i++) {
-    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasPacked, m, n, k, a_array[i],
-                        k, Bp, n, beta, c_array[i], n);
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasPacked, m, n, k,
+                        a_array[i], k, Bp, n, beta, c_array[i], n);
   }
   end = dsecnd();
-
 
   double elapsed = end - initial;
 
@@ -77,9 +76,11 @@ int main(int argc, char** argv) {
   double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
                          ((double)Arg_G_Size) * 1e-9);
   free(a);
-  free(b);
+  // free(b);
   free(c);
+
   mkl_free(Bp);
+
   ofstream writeGflops, writeRuntime;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);
   writeRuntime.open("pack_compute_Runtime.txt", ios::app);
