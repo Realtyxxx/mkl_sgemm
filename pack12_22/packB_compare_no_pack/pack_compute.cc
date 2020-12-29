@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
   // size_t : unsigned long
   size_t size = cblas_sgemm_pack_get_size(CblasBMatrix, m, n, k);
-  float *Bp = (float *)mkl_malloc(size, 64);
+  //float *Bp = (float *)mkl_malloc(size, 64);
   // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
   // If identifier = CblasAMatrix, the size returned is the size required to
   // store matrix A in an internal format.
@@ -53,12 +53,13 @@ int main(int argc, char **argv) {
   double initial, end;
   initial = dsecnd();
 
-  cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha, b,
+ /*
+cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha, b,
                    n, Bp);
-
+*/
   for (int i = 0; i < groupSize; i++) {
-    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasPacked, m, n, k,
-                        a_array[i], k, Bp, n, beta, c_array[i], n);
+    cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
+                        a_array[i], k, b, n, beta, c_array[i], n);
   }
   end = dsecnd();
 
@@ -81,7 +82,6 @@ int main(int argc, char **argv) {
   free(b);
   free(c);
 
-  mkl_free(Bp);
 
   ofstream writeGflops, writeRuntime;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);

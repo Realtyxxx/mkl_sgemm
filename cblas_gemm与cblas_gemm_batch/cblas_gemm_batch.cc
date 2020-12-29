@@ -29,11 +29,12 @@ int main(int argc, char **argv) {
   MKL_INT n_array[groupCount] = {n_value};
   MKL_INT k_array[groupCount] = {k_value};
 
+  srand(time(0));
+  
   std::vector<float> a(m_value * k_value * Arg_G_Size);
   std::vector<float> b(k_value * n_value * Arg_G_Size);
   std::vector<float> c(m_value * n_value * Arg_G_Size);
 
-  srand(time(0));
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
     a[i] = int(rand());
     b[i] = int(rand());
