@@ -52,11 +52,7 @@ int main(int argc, char **argv) {
   }
   double initial, end;
   initial = dsecnd();
-
- /*
-cblas_sgemm_pack(CblasRowMajor, CblasBMatrix, CblasNoTrans, m, n, k, alpha, b,
-                   n, Bp);
-*/
+  
   for (int i = 0; i < groupSize; i++) {
     cblas_sgemm_compute(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k,
                         a_array[i], k, b, n, beta, c_array[i], n);

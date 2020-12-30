@@ -23,8 +23,8 @@ int main(int argc, char **argv) {
   float *c = (float *)malloc((size_t)sizeof(float) * k * n * groupSize);
 
   // size_t : unsigned long
-  size_t size = cblas_sgemm_pack_get_size(CblasBMatrix, m, n, k);
-  float *Bp = (float *)mkl_malloc(size, 64);
+
+
   // CBLA_IDENTIFIER:Specifies which matrix is to be packed:
   // If identifier = CblasAMatrix, the size returned is the size required to
   // store matrix A in an internal format.

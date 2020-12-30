@@ -21,14 +21,15 @@ int main(int argc, char **argv) {
 
   m_value = k_value = n_value = Arg_MKN_value;
 
-  std::vector<float> a(m_value * k_value * groupSize, 1.0);
-  std::vector<float> b(k_value * n_value * groupSize, 1.0);
-  std::vector<float> c(m_value * n_value * groupSize, 0.0);
-
   srand(time(0));
+  
+  float *a = (float *)malloc((size_t)sizeof(float) * m_value * k_value * groupSize);
+  float *b = (float *)malloc((size_t)sizeof(float) * k_value * n_value * groupSize);
+  float *c = (float *)malloc((size_t)sizeof(float) * m_value * n_value * groupSize);
+
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
-    a[i] = rand();
-    b[i] = rand();
+    a[i] = rand() / (float)(RAND_MAX / 9999);
+    b[i] = rand() / (float)(RAND_MAX / 9999);
   }
 
   MKL_INT lda, ldb, ldc;
@@ -46,9 +47,9 @@ int main(int argc, char **argv) {
   float *c_array[groupSize];
   for (int i = 0; i < groupSize;
        ++i) {  //标记array[i]指向的数组开始的位置,现在只有一个group分为4个sub
-    a_array[i] = a.data() + i * m_value * k_value;  //指针操作
-    b_array[i] = b.data() + i * k_value * n_value;
-    c_array[i] = c.data() + i * m_value * n_value;
+    a_array[i] = a + i * m_value * k_value;  //指针操作
+    b_array[i] = b + i * k_value * n_value;
+    c_array[i] = c + i * m_value * n_value;
   }
 
   double s_initial, s_elapsed;  //时间
@@ -78,61 +79,7 @@ int main(int argc, char **argv) {
       "completed == \n"
       " == at %.5f milliseconds == \n\n",
       Arg_G_Size, Arg_MKN_value, (s_elapsed * 1000));
-
-  // // 输出矩阵A
-  // cout << "groupSize : " << groupSize << endl;
-  // cout << groupSize << " A(" << m_value << "," << k_value << ')' << endl;
-  // for (int i = 0; i < a.size(); ++i) {
-  //   cout << a[i] << ' ';
-  //   if ((i + 1) % m_value == 0) cout << endl;
-  //   if ((i + 1) % m_value * k_value == 0) {
-  //     cout << endl;
-  //     cout << endl;
-  //   }
-  // }
-
-  // cout << groupSize << " B(" << k_value << "," << n_value << ')' << endl;
-  // for (int i = 0; i < b.size(); ++i) {
-  //   cout << b[i] << ' ';
-  //   if ((i + 1) % k_value == 0) cout << endl;
-  //   if ((i + 1) % k_value * n_value == 0) {
-  //     cout << endl;
-  //     cout << endl;
-  //   }
-  // }
-
-  // cout << groupSize << " C(" << m_value << "," << n_value << ')' << endl;
-  // for (int i = 0; i < c.size(); ++i) {
-  //   cout << c[i] << ' ';
-  //   if ((i + 1) % m_value == 0) cout << endl;
-  //   if ((i + 1) % m_value * n_value == 0) {
-  //     cout << endl;
-  //     cout << endl;
-  //   }
-  // }
-
-  // printf(
-  //     " == Multiple Matrix multiplication using Intel(R) MKL cblas_sgemm
-  //     with" "for loop completed == \n" " == at %.5f milliseconds == \n\n",
-  //     (s_elapsed * 1000));
+  free(a);
+  free(b);
+  free(c);
 }
-
-// std::cout << "a.size(): " << a.size() << std::endl;
-// for (int i = 0; i < a.size(); ++i) {
-//   std::cout << a[i] << " ";
-//   if ((i + 1) % 40 == 0) std::cout << std::endl;
-// }
-
-// std::cout << "b.size(): " << b.size() << std::endl;
-// for (int i = 0; i < b.size(); ++i) {
-//   std::cout << b[i] << " ";
-//   if ((i + 1) % 40 == 0) std::cout << std::endl;
-// }
-
-// std::cout << "c_array.size(): " << 20 * 20 * 4 << std::endl;
-// for (int i = 0; i < 1600; ++i) {
-//   std::cout << c[i] << " ";
-//   if ((i + 1) % 80 == 0) std::cout << std::endl;
-// }
-// std::cout << std::endl;
-// return 0;
