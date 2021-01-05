@@ -10,4 +10,7 @@ clean:
 
 
 rmtxt:
-	rm -rf record.txt
+	rm -rf recordGflops.txt
+	rm -rf recordTime.txt
+	rm writeBatchGflops.txt
+	rm writeForGflops.txt

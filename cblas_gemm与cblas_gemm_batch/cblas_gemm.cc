@@ -22,10 +22,13 @@ int main(int argc, char **argv) {
   m_value = k_value = n_value = Arg_MKN_value;
 
   srand(time(0));
-  
-  float *a = (float *)malloc((size_t)sizeof(float) * m_value * k_value * groupSize);
-  float *b = (float *)malloc((size_t)sizeof(float) * k_value * n_value * groupSize);
-  float *c = (float *)malloc((size_t)sizeof(float) * m_value * n_value * groupSize);
+
+  float *a =
+      (float *)malloc((size_t)sizeof(float) * m_value * k_value * groupSize);
+  float *b =
+      (float *)malloc((size_t)sizeof(float) * k_value * n_value * groupSize);
+  float *c =
+      (float *)malloc((size_t)sizeof(float) * m_value * n_value * groupSize);
 
   for (int i = 0; i < m_value * k_value * Arg_G_Size; ++i) {
     a[i] = rand() / (float)(RAND_MAX / 9999);
@@ -46,7 +49,7 @@ int main(int argc, char **argv) {
   const float *a_array[groupSize], *b_array[groupSize];
   float *c_array[groupSize];
   for (int i = 0; i < groupSize;
-       ++i) {  //标记array[i]指向的数组开始的位置,现在只有一个group分为4个sub
+       ++i) {                                //标记array[i]指向的数组开始的位置,现在只有一个group分为4个sub
     a_array[i] = a + i * m_value * k_value;  //指针操作
     b_array[i] = b + i * k_value * n_value;
     c_array[i] = c + i * m_value * n_value;
@@ -66,12 +69,19 @@ int main(int argc, char **argv) {
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
-  ofstream write;
-  write.open("record.txt", ios::app);
+  ofstream writeTime, writeGflops, writeForGflops;
+  writeTime.open("recordTime.txt", ios::app);
+  writeGflops.open("recordGflops.txt", ios::app);
+  writeForGflops.open("writeForGflops.txt", ios::app);
 
   // write << s_elapsed * 1000 << "    ";
-  write << sgemm_gflops / s_elapsed << "    ";
-  write.close();
+  writeGflops << sgemm_gflops / s_elapsed << "    ";
+  writeForGflops << sgemm_gflops / s_elapsed << "    ";
+  writeTime << s_elapsed << "    ";
+
+  writeGflops.close();
+  writeTime.close();
+  writeForGflops.close();
 
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "

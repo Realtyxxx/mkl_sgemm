@@ -83,10 +83,11 @@ int main(int argc, char **argv) {
 
   mkl_free(Bp);
 
-  ofstream writeGflops, writeRuntime;
+
+  ofstream writeGflops, writeRuntime, writeEfficiency;
   writeGflops.open("pack_compute_Gflops.txt", ios::app);
   writeRuntime.open("pack_compute_Runtime.txt", ios::app);
-
+  
   writeGflops << sgemm_gflops / elapsed << "    ";
   writeRuntime << elapsed * 1000 << "    ";
 
