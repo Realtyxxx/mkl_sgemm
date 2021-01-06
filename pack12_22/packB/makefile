@@ -7,3 +7,8 @@ clean:
 rmtxt:
 	rm -rf pack_compute_Runtime.txt
 	rm -rf pack_compute_Gflops.txt
+trymulti:
+	 export MKL_NUM_THREADS=1 && taskset -c 1  ./pack_compute 2000 320
+	 export MKL_NUM_THREADS=2 && taskset -c 1  ./pack_compute 2000 320
+	 export MKL_NUM_THREADS=3 && taskset -c 1  ./pack_compute 2000 320
+	 export MKL_NUM_THREADS=4 && taskset -c 1  ./pack_compute 2000 320

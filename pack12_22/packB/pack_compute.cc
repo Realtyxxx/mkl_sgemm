@@ -68,6 +68,9 @@ int main(int argc, char **argv) {
   // printVector(b, m);
   // printVector(c, m, groupSize);
 
+  double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
+                         ((double)Arg_G_Size) * 1e-9);
+
   printf(
       " == Multiple Matrix multiplication (groupsize = %d, m n k = %d )using "
       "Intel(R) MKL cblas_sgemm "
@@ -75,8 +78,8 @@ int main(int argc, char **argv) {
       " == at %.5f milliseconds == \n\n",
       Arg_G_Size, Arg_MKN, (elapsed * 1000));
 
-  double sgemm_gflops = (2.0 * ((double)n) * ((double)m) * ((double)k) *
-                         ((double)Arg_G_Size) * 1e-9);
+  std::cout << "gflops : " << sgemm_gflops / elapsed << std::endl;
+
   free(a);
   free(b);
   free(c);
