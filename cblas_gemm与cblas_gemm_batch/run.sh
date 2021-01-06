@@ -47,8 +47,8 @@ m="40 80 160 320 640 1280"
 #q=(R C R C C R C R)
 #r=(R R C C C C R R)
 # run
-export MKL_NUM_THREADS=1
-export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=4
+export OMP_NUM_THREADS=4
 
 for j in $m
 do
