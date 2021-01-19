@@ -19,10 +19,10 @@ echo "---------------------------------------------------------- 1 -------------
 # echo "rm testbatch"
 # rm testbatch
 make clean
-make rmtxt
+make rmlog
 
 #### compile ####
-echo "g++ *cc -o * -lmkl_r -O3"
+echo "g++ *cc -o * -lmkl_r -O3 -Wall"
 make install
 echo "-----------------------------------------------------------------------------------------------------------------------------"
 
@@ -55,12 +55,12 @@ do
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     # taskset -c 1 ./cblas_gemm 256 1280
     # taskset -c 1 ./cblas_gemm_batch 256 1280
-    echo 'm-k-n:'${j} >> pack_compute_Runtime.txt
-    echo 'm-k-n:'${j} >> pack_compute_Gflops.txt
-    echo 'm-k-n:'${j} >> pack_compute_efficiency.txt
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Runtime.txt
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Gflops.txt
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_efficiency.txt
+    echo 'm-k-n:'${j} >> pack_compute_Runtime.log
+    echo 'm-k-n:'${j} >> pack_compute_Gflops.log
+    echo 'm-k-n:'${j} >> pack_compute_efficiency.log
+    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Runtime.log
+    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Gflops.log
+    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_efficiency.log
   
     for i in $count
     do
@@ -75,9 +75,9 @@ do
     #		done	
     #    echo "********************************************************************************************************************"
     done
-    echo -e '\n'>>pack_compute_Runtime.txt
-    echo -e '\n'>>pack_compute_Gflops.txt
-    echo -e '\n'>>pack_compute_efficiency.txt
+    echo -e '\n'>>pack_compute_Runtime.log
+    echo -e '\n'>>pack_compute_Gflops.log
+    echo -e '\n'>>pack_compute_efficiency.log
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 done
 echo "-----------------------------------------------------------------------------------------------------------------------------"
