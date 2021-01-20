@@ -19,7 +19,7 @@ echo "---------------------------------------------------------- 1 -------------
 # echo "rm testbatch"
 # rm testbatch
 make clean
-make rmtxt
+make rmrecord
 
 
 #### compile ####
@@ -47,8 +47,8 @@ m="40 80 160 320 640 1280"
 #q=(R C R C C R C R)
 #r=(R R C C C C R R)
 # run
-export MKL_NUM_THREADS=4
-export OMP_NUM_THREADS=4
+export MKL_NUM_THREADS=1
+export OMP_NUM_THREADS=1
 
 for j in $m
 do
@@ -56,14 +56,14 @@ do
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     # taskset -c 1 ./cblas_gemm 256 1280
     # taskset -c 1 ./cblas_gemm_batch 256 1280
-    echo 'm-k-n:'${j} >> recordTime.txt
-    echo 'm-k-n:'${j} >> recordGflops.txt
-    echo 'm-k-n:'${j} >> writeForGflops.txt
-    echo 'm-k-n:'${j} >> writeBatchGflops.txt
-    echo -e 'count:\n8————————8————————16————————16————————32————————32————————64————————64————————128————————128—————————256———————256 ' >> recordTime.txt
-    echo -e 'count:\n8————————8————————16————————16————————32————————32————————64————————64————————128————————128—————————256———————256 ' >> recordGflops.txt
-    echo -e 'count:\n8————————16————————32————————64————————128————————256 ' >> writeBatchGflops.txt
-    echo -e 'count:\n8————————16————————32————————64————————128————————256 ' >> writeForGflops.txt
+    echo 'm-k-n:'${j} >> recordTime.log
+    echo 'm-k-n:'${j} >> recordGflops.log
+    echo 'm-k-n:'${j} >> writeForGflops.log
+    echo 'm-k-n:'${j} >> writeBatchGflops.log
+    echo -e 'count:\n8--------8--------16--------16--------32--------32--------64--------64--------128--------128--------256--------256 ' >> recordTime.log
+    echo -e 'count:\n8--------8--------16--------16--------32--------32--------64--------64--------128--------128--------256--------256 ' >> recordGflops.log
+    echo -e 'count:\n8--------16--------32--------64--------128--------256 ' >> writeBatchGflops.log
+    echo -e 'count:\n8--------16--------32--------64--------128--------256 ' >> writeForGflops.log
   
     for i in $count
     do
@@ -79,11 +79,11 @@ do
     #		done	
     #    echo "********************************************************************************************************************"
     done
-    echo -e '\n'>>recordTime.txt
-    echo -e '\n'>>recordGflops.txt
-    echo -e '\n'>>writeBatchGflops.txt
-    echo -e '\n'>>writeForGflops.txt
-    # echo ' '>>record.txt
+    echo -e '\n'>>recordTime.log
+    echo -e '\n'>>recordGflops.log
+    echo -e '\n'>>writeBatchGflops.log
+    echo -e '\n'>>writeForGflops.log
+    # echo ' '>>record.log
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
 done
 echo "-----------------------------------------------------------------------------------------------------------------------------"

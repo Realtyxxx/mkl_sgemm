@@ -78,13 +78,13 @@ int main(int argc, char **argv) {
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
   ofstream writeTime, writeGflops, writeBatchGflops;
-  writeTime.open("recordTime.txt", ios::app);
-  writeGflops.open("recordGflops.txt", ios::app);
-  writeBatchGflops.open("writeBatchGflops.txt", ios::app);
+  writeTime.open("recordTime.log", ios::app);
+  writeGflops.open("recordGflops.log", ios::app);
+  writeBatchGflops.open("writeBatchGflops.log", ios::app);
 
   // write << s_elapsed * 1000 << "    ";
-  writeGflops << sgemm_gflops / s_elapsed << "    ";
-  writeBatchGflops << sgemm_gflops / s_elapsed << "    ";
+  writeGflops << sgemm_gflops / s_elapsed << "----";
+  writeBatchGflops << sgemm_gflops / s_elapsed << "----";
   writeTime << s_elapsed << "    ";
 
   writeGflops.close();

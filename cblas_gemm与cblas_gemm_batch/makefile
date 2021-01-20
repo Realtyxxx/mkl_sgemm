@@ -6,10 +6,8 @@ clean:
 	rm cblas_gemm_batch
 	rm cblas_gemm
 
-
-
-rmtxt:
-	rm -rf recordGflops.txt
-	rm -rf recordTime.txt
-	rm writeBatchGflops.txt
-	rm writeForGflops.txt
+rmrecord:
+	rm  recordGflops.log
+	rm  recordTime.log
+	rm writeBatchGflops.log
+	rm writeForGflops.log
