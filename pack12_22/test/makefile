@@ -1,5 +1,5 @@
 install:
-	g++ -g pack_compute.cc -o pack_compute -lmkl_rt -O3 -Wall
+	g++ -g pack_compute.cc -o pack_compute -lmkl_rt -O3 -Wall -march=zenver1 -mtune=zenver1
 
 clean:
 	rm -rf pack_compute
