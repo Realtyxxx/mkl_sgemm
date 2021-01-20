@@ -78,10 +78,10 @@ int main(int argc, char **argv) {
       " == at %.5f milliseconds == \n",
       Arg_G_Size, Arg_MKN, (elapsed * 1000));
 
-  float total = 48;
-  float efficiency = sgemm_gflops / elapsed / total * 100 ;
+  // float total = 48;
+  // float efficiency = sgemm_gflops / elapsed / total * 100 ;
   std::cout << "gflops : " << sgemm_gflops / elapsed << std::endl;
-  std::cout << "efficiency : " << efficiency << "% " << std::endl;
+  // std::cout << "efficiency : " << efficiency << "% " << std::endl;
 
   free(a);
   free(b);
@@ -92,15 +92,15 @@ int main(int argc, char **argv) {
   ofstream writeGflops, writeRuntime, writeEfficiency;
   writeGflops.open("pack_compute_Gflops.log", ios::app);
   writeRuntime.open("pack_compute_Runtime.log", ios::app);
-  writeEfficiency.open("pack_compute_efficiency.log", ios::app);
+  // writeEfficiency.open("pack_compute_efficiency.log", ios::app);
 
-  writeGflops << sgemm_gflops / elapsed << "    ";
-  writeRuntime << elapsed * 1000 << "    ";
-  writeEfficiency << efficiency << "%    ";
+  writeGflops << sgemm_gflops / elapsed << "-------";
+  writeRuntime << elapsed * 1000 << "-------";
+  // writeEfficiency << efficiency << "%    ";
 
   writeRuntime.close();
   writeGflops.close();
-  writeEfficiency.close();
+  // writeEfficiency.close();
 }
 
 // 就是频率 向量长度 2 核数 乘起来

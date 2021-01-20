@@ -58,14 +58,14 @@ do
     echo 'm-k-n:'${j} >> pack_compute_Runtime.log
     echo 'm-k-n:'${j} >> pack_compute_Gflops.log
     echo 'm-k-n:'${j} >> pack_compute_efficiency.log
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Runtime.log
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_Gflops.log
-    echo -e 'count:\8————————16————————32————————64————————128————————256 ' >> pack_compute_efficiency.log
+    echo -e 'count:\8--------16--------32--------64--------128--------256 ' >> pack_compute_Runtime.log
+    echo -e 'count:\8--------16--------32--------64--------128--------256 ' >> pack_compute_Gflops.log
+    echo -e 'count:\8--------16--------32--------64--------128--------256 ' >> pack_compute_efficiency.log
   
     for i in $count
     do
       echo "*************************************************************************************************"
-      taskset -c 1 ./pack_compute ${i} ${j}
+      export MKL_NUM_THREADS=1 && taskset -c 1 ./pack_compute ${i} ${j}
       #  echo "./testbatch count=${i} m=${j} m=${j} k=${j}"
     #		for t in {0..7};
     #		do

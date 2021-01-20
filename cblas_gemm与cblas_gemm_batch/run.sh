@@ -23,7 +23,7 @@ make rmrecord
 
 
 #### compile ####
-echo "g++ *cc -o * -lmkl_r"
+echo "g++ *cc -o * -lmkl_r -march=znver1 -mtune=znver1 -Wall -O3"
 make install
 echo "-----------------------------------------------------------------------------------------------------------------------------"
 
@@ -68,8 +68,8 @@ do
     for i in $count
     do
       echo "*************************************************************************************************"
-      taskset -c 1 ./cblas_gemm ${i} ${j}
-      taskset -c 1 ./cblas_gemm_batch ${i} ${j}
+      export MKL_NUM_THREADS=1 && taskset -c 1 ./cblas_gemm ${i} ${j}
+      export MKL_NUM_THREADS=1 && taskset -c 1 ./cblas_gemm_batch ${i} ${j}
       #  echo "./testbatch count=${i} m=${j} m=${j} k=${j}"
     #		for t in {0..7};
     #		do

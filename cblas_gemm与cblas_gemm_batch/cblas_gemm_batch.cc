@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
 
   s_elapsed = dsecnd() - s_initial;
 
-  int total;
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
