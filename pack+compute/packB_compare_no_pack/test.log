@@ -1,0 +1,179 @@
+##############################################################################################################
+# Title      : test_pack/compute_sgemm                                                                       #
+# CPU        : INTEL I5 8500                                                                                 #
+# Tester     : TYX                                                                                           #
+# Time       : 2020.12.13                                                                                    #
+# Description: Test performance of pack&compute_sgemm for different {groupSize}, {M,N,K_value}.              #
+#              To run the script, one should check environment variables.                                    #
+##############################################################################################################
+---------------------------------------------------------- 1 ----------------------------------------------------------------
+rm -rf pack_compute
+rm -rf pack_compute_Runtime.txt
+rm -rf pack_compute_Gflops.txt
+g++ *cc -o * -lmkl_r
+g++ -g pack_compute.cc -o pack_compute -lmkl_rt -O3 -mtune=znver1 -march=znver1
+-----------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------- 2 ----------------------------------------------------------------
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 20.64949 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.13799 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.13409 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.32337 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.61349 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 40 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 3.22109 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.20170 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.63091 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.78994 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 3.78459 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 5.22523 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 80 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 8.68352 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 3.38052 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 4.78023 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 7.40182 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 15.92590 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 23.63230 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 160 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 45.36041 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 11.72086 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 47.29605 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 40.91833 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 79.86350 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 157.43566 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 320 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 313.04644 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 77.27969 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 152.65063 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 303.32829 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 604.62591 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 1207.62124 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 640 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2440.42969 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 620.61615 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 1193.65403 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2408.62052 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 4791.51560 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 9562.01007 milliseconds == 
+
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m n k = 1280 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 19126.43349 milliseconds == 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-----------------------------------------------------------------------------------------------------------------------------

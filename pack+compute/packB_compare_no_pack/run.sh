@@ -63,7 +63,7 @@ do
     for i in $count
     do
       echo "*************************************************************************************************"
-      taskset -c 1 ./pack_compute ${i} ${j}
+      export MKL_NUM_THREADS=1 && taskset -c 1 ./pack_compute ${i} ${j}
       #  echo "./testbatch count=${i} m=${j} m=${j} k=${j}"
     #		for t in {0..7};
     #		do
