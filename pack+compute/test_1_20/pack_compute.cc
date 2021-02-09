@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
 
   writeRuntime.close();
   writeGflops.close();
-  // writeEfficiency.close();
+
 }
 
 // 就是频率 向量长度 2 核数 乘起来
