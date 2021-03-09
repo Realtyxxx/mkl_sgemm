@@ -9,7 +9,7 @@
 // mkl_set_num_threads(1);
 // MKL_Set_Num_Threads(1);
 
-using namespace std;
+void printVector(float *, int, int);
 
 int main(int argc, char **argv) {
   // mkl_set_num_threads(1);
@@ -79,6 +79,7 @@ int main(int argc, char **argv) {
 
   double s_initial, s_elapsed;  //时间
 
+  // batch函数执行位置与掐时间位置
   s_initial = dsecnd();
 
   cblas_sgemm_batch(CblasRowMajor, transA, transB, m_array, n_array, k_array,
@@ -87,13 +88,18 @@ int main(int argc, char **argv) {
 
   s_elapsed = dsecnd() - s_initial;
 
+  //打印测试
+/*   printVector((float *)a_array[0], (int)k_value, (int)(m_value * k_value));
+  printVector((float *)b_array[0], (int)n_value, (int)(k_value * n_value));
+  printVector((float *)c_array[0], (int)n_value, (int)(m_value * n_value)); */
+
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
-  ofstream writeTime, writeGflops, writeBatchGflops;
-  writeTime.open("recordTime.log", ios::app);
-  writeGflops.open("recordGflops.log", ios::app);
-  writeBatchGflops.open("writeBatchGflops.log", ios::app);
+  std::ofstream writeTime, writeGflops, writeBatchGflops;
+  writeTime.open("recordTime.log", std::ios::app);
+  writeGflops.open("recordGflops.log", std::ios::app);
+  writeBatchGflops.open("writeBatchGflops.log", std::ios::app);
 
   // write << s_elapsed * 1000 << "    ";
   writeGflops << sgemm_gflops / s_elapsed << "----";

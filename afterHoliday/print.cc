@@ -1,8 +1,7 @@
 #include <iostream>
-#include <vector>
 
-void printVector(std::vector<float> ve, int m) {
-  for (int i = 0; i < int(ve.size()); i++) {
+void printVector(float* ve, int m ,int size) {
+  for (int i = 0; i < size; i++) {
     std::cout << ve[i] << " ";
     if ((i + 1) % m == 0) std::cout << std::endl;
   }
