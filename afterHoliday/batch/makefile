@@ -9,7 +9,7 @@ clean:
 	-rm batch print.o batch.o
 
 rmrecord:
-	-rm  recordGflops.log recordTime.log writeBatchGflops.log
+	-rm   writeBatchGflops.log 
 
 
 print.o:../print.cc

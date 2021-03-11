@@ -89,25 +89,17 @@ int main(int argc, char **argv) {
   s_elapsed = dsecnd() - s_initial;
 
   //打印测试
-/*   printVector((float *)a_array[0], (int)k_value, (int)(m_value * k_value));
-  printVector((float *)b_array[0], (int)n_value, (int)(k_value * n_value));
-  printVector((float *)c_array[0], (int)n_value, (int)(m_value * n_value)); */
+  /*   printVector((float *)a_array[0], (int)k_value, (int)(m_value * k_value));
+    printVector((float *)b_array[0], (int)n_value, (int)(k_value * n_value));
+    printVector((float *)c_array[0], (int)n_value, (int)(m_value * n_value)); */
 
   double sgemm_gflops = (2.0 * ((double)n_value) * ((double)m_value) *
                          ((double)k_value) * ((double)Arg_G_Size) * 1e-9);
 
-  std::ofstream writeTime, writeGflops, writeBatchGflops;
-  writeTime.open("recordTime.log", std::ios::app);
-  writeGflops.open("recordGflops.log", std::ios::app);
+  std::ofstream writeBatchGflops;
+
   writeBatchGflops.open("writeBatchGflops.log", std::ios::app);
-
-  // write << s_elapsed * 1000 << "    ";
-  writeGflops << sgemm_gflops / s_elapsed << "----";
   writeBatchGflops << sgemm_gflops / s_elapsed << "----";
-  writeTime << s_elapsed << "    ";
-
-  writeGflops.close();
-  writeTime.close();
   writeBatchGflops.close();
 
   printf(
@@ -115,8 +107,12 @@ int main(int argc, char **argv) {
       "%d )using "
       "Intel(R) MKL cblas_sgemm_batch "
       "completed == \n"
-      " == at %.5f milliseconds == \n\n",
-      Arg_G_Size, Arg_M_value, Arg_N_value, Arg_K_value, (s_elapsed * 1000));
+      // " == at %.5f milliseconds == \n"
+      " == at %.5f gflops\n",
+      Arg_G_Size, Arg_M_value, Arg_N_value, Arg_K_value,
+      sgemm_gflops / s_elapsed);
+
+  //释放空间
   free(a);
   free(b);
   free(c);
