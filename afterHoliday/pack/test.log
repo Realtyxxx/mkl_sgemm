@@ -1,0 +1,316 @@
+##############################################################################################################
+# Title      : test_pack_sgemm                                                                               #
+# CPU        : SKYLAKE                                                                                       #
+# Tester     : TYX                                                                                           #
+# Time       : 2020.3.11                                                                                     #
+# Description: Test performance of mkl 's cblas_sgemm_pack  for different {groupSize}, {M,N,K_value}.        #
+#              To run the script, one should check environment variables.                                    #
+##############################################################################################################
+------------------------------------------------------------------------ 1 --------------------------------------------------------------------------------
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+rm pack print.o pack.o
+rm  pack_compute_Gflops.log  pack_compute_Runtime.log
+g++  -c ../print.cc -o print.o
+g++   -c pack_compute.cc  -o   pack.o
+g++ print.o pack.o  -lmkl_rt -O3 -Wall -march=znver1 -mtune=znver1 -o pack
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------ 2 --------------------------------------------------------------------------------
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 21.18680 milliseconds == 
+gflops : 0.217494
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 1.28906 milliseconds == 
+gflops : 7.14942
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.06419 milliseconds == 
+gflops : 8.9294
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.35233 milliseconds == 
+gflops : 15.6713
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 4.12327 milliseconds == 
+gflops : 17.881
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 20, n = 576, k = 25 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 6.82335 milliseconds == 
+gflops : 21.6105
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.13223 milliseconds == 
+gflops : 12.0062
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 2.93405 milliseconds == 
+gflops : 17.4503
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 4.32934 milliseconds == 
+gflops : 23.6526
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 5.95158 milliseconds == 
+gflops : 34.411
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 9.87138 milliseconds == 
+gflops : 41.4937
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 50, n = 64, k = 500 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 18.82815 milliseconds == 
+gflops : 43.5093
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 1.69040 milliseconds == 
+gflops : 15.1444
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 3.06632 milliseconds == 
+gflops : 16.6976
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 4.20183 milliseconds == 
+gflops : 24.3703
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 6.99272 milliseconds == 
+gflops : 29.2876
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 13.34173 milliseconds == 
+gflops : 30.7007
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 500, n = 64, k = 50 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 24.04254 milliseconds == 
+gflops : 34.0729
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 10.66212 milliseconds == 
+gflops : 38.4164
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 20.67774 milliseconds == 
+gflops : 39.6175
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 40.13766 milliseconds == 
+gflops : 40.8195
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 78.49606 milliseconds == 
+gflops : 41.7448
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 156.30256 milliseconds == 
+gflops : 41.9289
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 500, n = 800, k = 64 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 311.51833 milliseconds == 
+gflops : 42.0752
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 13.82824 milliseconds == 
+gflops : 40.657
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 25.82058 milliseconds == 
+gflops : 43.5478
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 49.60133 milliseconds == 
+gflops : 45.3387
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 95.95252 milliseconds == 
+gflops : 46.8744
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 190.98383 milliseconds == 
+gflops : 47.1005
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 96, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 379.67136 milliseconds == 
+gflops : 47.3854
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 8.06704 milliseconds == 
+gflops : 34.8464
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 14.11483 milliseconds == 
+gflops : 39.8315
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 25.71894 milliseconds == 
+gflops : 43.7199
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 49.31047 milliseconds == 
+gflops : 45.6061
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 97.28108 milliseconds == 
+gflops : 46.2342
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 48, n = 3025, k = 121 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 192.70319 milliseconds == 
+gflops : 46.6802
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 28.37540 milliseconds == 
+gflops : 32.0945
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 53.95503 milliseconds == 
+gflops : 33.7575
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 106.42937 milliseconds == 
+gflops : 34.2272
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 209.91245 milliseconds == 
+gflops : 34.7076
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 421.31832 milliseconds == 
+gflops : 34.5846
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 96, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 825.04295 milliseconds == 
+gflops : 35.3221
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 15.57544 milliseconds == 
+gflops : 29.2349
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 28.63978 milliseconds == 
+gflops : 31.7982
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 54.02927 milliseconds == 
+gflops : 33.7111
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 107.12844 milliseconds == 
+gflops : 34.0038
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 210.99049 milliseconds == 
+gflops : 34.5303
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 48, n = 12100, k = 49 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 416.43035 milliseconds == 
+gflops : 34.9905
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 8, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 39.66533 milliseconds == 
+gflops : 11.6581
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 8 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 16, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 79.45612 milliseconds == 
+gflops : 11.6397
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 16 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 32, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 156.92094 milliseconds == 
+gflops : 11.7874
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 32 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 64, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 305.39900 milliseconds == 
+gflops : 12.1133
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 64 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 128, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 600.98347 milliseconds == 
+gflops : 12.3111
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 128 {m[j]} {k[j]} {n[j]}
+*************************************************************************************************
+ == Multiple Matrix multiplication (groupsize = 256, m = 64, n = 50176, k = 9 )using Intel(R) MKL cblas_sgemm completed == 
+ == at 1203.35007 milliseconds == 
+gflops : 12.2969
+export MKL_NUM_THREADS=1 && taskset -c 1 ./pack 256 {m[j]} {k[j]} {n[j]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-----------------------------------------------------------------------------------------------------------------------------------------------------------

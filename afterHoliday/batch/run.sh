@@ -5,7 +5,7 @@ echo "# Title      : test_batch_sgemm                                           
 echo "# CPU        : SKYLAKE                                                                                       #"
 echo "# Tester     : TYX                                                                                           #"
 echo "# Time       : 2020.3.11                                                                                     #"
-echo "# Description: Test performance of mkl 's cblas_sgemm_sgemm for different {groupSize}, {M,N,K_value}.        #"
+echo "# Description: Test performance of mkl 's cblas_sgemm_batch for different {groupSize}, {M,N,K_value}.        #"
 echo "#              To run the script, one should check environment variables.                                    #"
 echo "##############################################################################################################"
 

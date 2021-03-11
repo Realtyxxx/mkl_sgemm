@@ -46,8 +46,8 @@ int main(int argc, char **argv) {
   // vector<float> c(k * n * groupSize);
   srand((unsigned)time(0));  // set the time seed;
 
-  for (int i = 0; i < aSize; i++) a[i] = 1;//rand() / (float)(RAND_MAX / 9999);
-  for (int i = 0; i < bSize; i++) b[i] = 2;//rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < aSize; i++) a[i] = rand() / (float)(RAND_MAX / 9999);
+  for (int i = 0; i < bSize; i++) b[i] = rand() / (float)(RAND_MAX / 9999);
   // for (int i = 0; i < aSize; i++) a[i] = 1;
   // for (int i = 0; i < bSize; i++) b[i] = 1;
 
@@ -79,9 +79,9 @@ int main(int argc, char **argv) {
 
 
   //打印测试
-  printVector((float *)a_array[0], (int)k, (int)(m * k));
-  printVector((float *)b, (int)n, (int)(k * n));
-  printVector((float *)c_array[0], (int)n, (int)(m * n));
+  // printVector((float *)a_array[0], (int)k, (int)(m * k));
+  // printVector((float *)b, (int)n, (int)(k * n));
+  // printVector((float *)c_array[0], (int)n, (int)(m * n));
 
 
 
